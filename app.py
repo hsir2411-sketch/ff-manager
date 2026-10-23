@@ -116,7 +116,7 @@ def login():
     if request.method == "POST":
         username = request.form.get("username","").strip()
         password = request.form.get("password","")
-        user = db().execute("SELECT * FROM users WHERE username = %s COLLATE NOCASE", (username,)).fetchone()
+        user = db().execute("SELECT * FROM users WHERE LOWER(username) = LOWER(%s)", (username,)).fetchone()।
         if user and check_password_hash(user["password_hash"], password):
             session.clear()
             session["user_id"] = user["id"]
